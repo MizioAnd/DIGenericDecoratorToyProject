@@ -28,7 +28,7 @@ builder.Services.AddSingleton<Generic.AdjustInventoryFailingService>();
 // Fails
 // builder.Services.AddSingleton<Generic.ICommandService<AdjustInventory>>(p => new Generic.TransactionCommandServiceDecorator<AdjustInventory>(p.GetRequiredService<Generic.AdjustInventoryFailingService>()));
 // Succeeds with retry decorator
-builder.Services.AddSingleton<Generic.ICommandService<AdjustInventory>>(p => new Generic.TransactionCommandServiceDecorator<AdjustInventory>(new Generic.RetryDecorator(p.GetRequiredService<Generic.AdjustInventoryFailingService>())));
+builder.Services.AddSingleton<Generic.ICommandService<AdjustInventory>>(p => new Generic.TransactionCommandServiceDecorator<AdjustInventory>(new Generic.RetryDecorator<AdjustInventory>(p.GetRequiredService<Generic.AdjustInventoryFailingService>())));
 
 var app = builder.Build();
 

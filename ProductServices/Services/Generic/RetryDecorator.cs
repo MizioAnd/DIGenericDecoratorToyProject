@@ -2,19 +2,19 @@ using Polly;
 
 namespace ProductServices.Services.Generic;
 
-public class RetryDecorator : ICommandService<AdjustInventory>
+public class RetryDecorator<TCommand> : ICommandService<TCommand>
 {
-    private readonly ICommandService<AdjustInventory> _service;
+    private readonly ICommandService<TCommand> _service;
     private Policy _policy;
     private int _maxRetry = 3;
 
-    public RetryDecorator(ICommandService<AdjustInventory> service)
+    public RetryDecorator(ICommandService<TCommand> service)
     {
         _service = service;
         _policy = Policy.Handle<BadHttpRequestException>().WaitAndRetry(_maxRetry, retryAattempt => TimeSpan.FromSeconds(Math.Pow(2, retryAattempt)));
     }
 
-    public void Execute(AdjustInventory command)
+    public void Execute(TCommand command)
     {
         try
         {

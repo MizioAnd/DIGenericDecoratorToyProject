@@ -4,13 +4,13 @@ namespace ProductServices.Services.Generic;
 
 public class RetryDecorator<TCommand> : ICommandService<TCommand>
 {
-    private readonly ICommandService<TCommand> _service;
+    private readonly ICommandService<TCommand> _inner;
     private Policy _policy;
     private int _maxRetry = 3;
 
-    public RetryDecorator(ICommandService<TCommand> service)
+    public RetryDecorator(ICommandService<TCommand> inner)
     {
-        _service = service;
+        _inner = inner;
         _policy = Policy.Handle<BadHttpRequestException>().WaitAndRetry(_maxRetry, retryAattempt => TimeSpan.FromSeconds(Math.Pow(2, retryAattempt)));
     }
 
@@ -18,7 +18,7 @@ public class RetryDecorator<TCommand> : ICommandService<TCommand>
     {
         try
         {
-            _policy.Execute(() => _service.Execute(command));
+            _policy.Execute(() => _inner.Execute(command));
         }
         catch(Exception e)
         {

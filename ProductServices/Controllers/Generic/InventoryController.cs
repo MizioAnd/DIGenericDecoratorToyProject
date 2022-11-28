@@ -19,6 +19,7 @@ public class InventoryController : Controller
         _service = service;
     }
 
+    // TODO: not working
     [HttpPost]
     public ActionResult AdjustInventory(AdjustInventoryViewModel viewModel)
     {

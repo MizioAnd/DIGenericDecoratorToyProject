@@ -10,7 +10,7 @@ public class RetryDecorator<TCommand> : ICommandService<TCommand>
 
     public RetryDecorator(ICommandService<TCommand> inner)
     {
-        _inner = inner;
+        _inner = inner ?? throw new ArgumentNullException(nameof(inner));
         _policy = Policy.Handle<BadHttpRequestException>().WaitAndRetry(_maxRetry, retryAattempt => TimeSpan.FromSeconds(Math.Pow(2, retryAattempt)));
     }
 

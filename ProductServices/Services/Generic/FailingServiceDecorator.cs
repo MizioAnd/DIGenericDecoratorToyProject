@@ -9,8 +9,8 @@ public class FailingServiceDecorator<TCommand> : ICommandService<TCommand>
 
     public FailingServiceDecorator(IInventoryRepository repository, ICommandService<TCommand> inner)
     {
-        _repository = repository;
-        _inner = inner;
+        _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+        _inner = inner ?? throw new ArgumentNullException(nameof(inner));
     }
 
     public void Execute(TCommand command)

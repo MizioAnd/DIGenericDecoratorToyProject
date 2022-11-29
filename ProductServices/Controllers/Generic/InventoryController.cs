@@ -15,8 +15,8 @@ public class InventoryController : Controller
 
     public InventoryController(ICommandService<AdjustInventory> service, AdjustInventoryViewModel adjustInventoryViewModel)
     {
-        _adjustInventoryViewModel = adjustInventoryViewModel;
-        _service = service;
+        _adjustInventoryViewModel = adjustInventoryViewModel ?? throw new ArgumentNullException(nameof(adjustInventoryViewModel));
+        _service = service ?? throw new ArgumentNullException(nameof(service));
     }
 
     // TODO: not working

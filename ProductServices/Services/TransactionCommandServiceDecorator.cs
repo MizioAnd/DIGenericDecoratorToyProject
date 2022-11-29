@@ -8,7 +8,7 @@ public class TransactionCommandServiceDecorator : ICommandService
 
     public TransactionCommandServiceDecorator(ICommandService inner)
     {
-        _inner = inner;
+        _inner = inner ?? throw new ArgumentNullException(nameof(inner));
     }
 
     public void Execute(AdjustInventory command)

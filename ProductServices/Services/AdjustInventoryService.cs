@@ -7,7 +7,7 @@ namespace ProductServices.Services
         public AdjustInventoryService(IInventoryRepository repository)
         {
             // A non-used dummy field
-            _repository = repository;
+            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
 
         public void Execute(object cmd)

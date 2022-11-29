@@ -8,6 +8,6 @@ public class AdjustInventoryViewModel
     
     public AdjustInventoryViewModel(AdjustInventory adjustInventory)
     {
-        Command = adjustInventory;
+        Command = adjustInventory ?? throw new ArgumentNullException(nameof(adjustInventory));
     }
 }

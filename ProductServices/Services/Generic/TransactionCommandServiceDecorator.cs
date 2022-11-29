@@ -8,7 +8,7 @@ public class TransactionCommandServiceDecorator<TCommand> : ICommandService<TCom
 
     public TransactionCommandServiceDecorator(ICommandService<TCommand> inner)
     {
-        _inner = inner;
+        _inner = inner ?? throw new ArgumentNullException(nameof(inner));
     }
 
     public void Execute(TCommand command)

@@ -18,8 +18,9 @@ public class InventoryController : Controller
         _adjustInventoryViewModel = adjustInventoryViewModel;
     }
 
+    // TODO: not working
     [HttpPost]
-    public ActionResult AdjustInventory(AdjustInventoryViewModel viewModel)
+    public async Task<ActionResult> AdjustInventory(AdjustInventoryViewModel viewModel)
     {
 
         if (!ModelState.IsValid)
@@ -32,7 +33,7 @@ public class InventoryController : Controller
 
     // called by /Inventory as endpoint
     [HttpGet(Name = "TestIfNonGenericDecoratorGetsRegistered")]
-    public IEnumerable Get()
+    public async Task<ActionResult<IEnumerable>> Get()
     {
         AdjustInventory command = _adjustInventoryViewModel.Command;
 
@@ -41,7 +42,7 @@ public class InventoryController : Controller
         // as it would not be using a type cast to AdjustInventory as below,
         // var command = (AdjustInventory)cmd;
         // but instead would try to cast to some other object not being possible when cmd is of type AdjustInventory.
-        _service.Execute(command);
-        return Enumerable.Range(1, 5).ToArray();
+        await Task.Run(() => _service.Execute(command));
+        return Ok(Enumerable.Range(1, 5).ToArray());
     }
 }

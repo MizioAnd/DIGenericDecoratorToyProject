@@ -21,25 +21,25 @@ public class InventoryController : Controller
 
     // TODO: not working
     [HttpPost]
-    public ActionResult AdjustInventory(AdjustInventoryViewModel viewModel)
+    public async Task<ActionResult> AdjustInventory(AdjustInventoryViewModel viewModel)
     {
         if (!ModelState.IsValid)
         {
             return View(viewModel);
         }
 
-        return RedirectToAction("Index");
+        return Ok(RedirectToAction("Index"));
     }
 
     // called by /Inventory as endpoint
     [HttpGet(Name = "TestIfGenericDecoratorGetsRegistered")]
-    public IEnumerable Get()
+    public async Task<ActionResult<IEnumerable>> Get()
     {
         AdjustInventory command = _adjustInventoryViewModel.Command;
 
         try
         {
-            _service.Execute(command);
+            await Task.Run(() => _service.Execute(command));
         }
         catch (Exception e)
         {
@@ -50,6 +50,6 @@ public class InventoryController : Controller
             throw;
         }
 
-        return Enumerable.Range(1, 5).ToArray();
+        return Ok(Enumerable.Range(1, 5).ToArray());
     }
 }
